@@ -6,7 +6,8 @@
   "author": "Andrew Watkins",
   "license": "MIT",
   "scripts": {
-    "start": "nodemon src/index.ts"
+    "start": "nodemon src/index.ts",
+    "build": "tsc -p ./"
   },
   "dependencies": {
     "express": "^4.17.1"
