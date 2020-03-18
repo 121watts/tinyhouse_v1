@@ -6,8 +6,7 @@ const port = 2345
 const one = 1
 const two = 2
 
-app.get('/', (req, res) => res.send(`1 + 2 = ${one + two}`))
-
+app.get('/', (_req, res) => res.send(`1 + 2 = ${one + two}`))
 app.listen(port)
 
 console.log(`[app]: http://localhost:${port}`)
