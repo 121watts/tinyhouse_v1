@@ -1,27 +1,30 @@
 {
-  "name": "tinyhouse-v1-server",
-  "version": "0.1.0",
-  "description": "Airbnb clone",
-  "main": "index.js",
-  "author": "Andrew Watkins",
-  "license": "MIT",
-  "scripts": {
-    "start": "nodemon src/index.ts",
-    "build": "tsc -p ./"
-  },
-  "dependencies": {
-    "eslint-config-prettier": "^6.10.0",
-    "express": "^4.17.1",
-    "prettier": "^1.19.1"
-  },
-  "devDependencies": {
-    "@types/express": "^4.17.3",
-    "@types/node": "^13.9.1",
-    "@typescript-eslint/eslint-plugin": "^2.24.0",
-    "@typescript-eslint/parser": "^2.24.0",
-    "eslint": "^6.8.0",
-    "nodemon": "^2.0.2",
-    "ts-node": "^8.6.2",
-    "typescript": "^3.8.3"
-  }
+    "name": "tinyhouse-v1-server",
+    "version": "0.1.0",
+    "description": "Airbnb clone",
+    "main": "index.js",
+    "author": "Andrew Watkins",
+    "license": "MIT",
+    "scripts": {
+        "start": "nodemon src/index.ts",
+        "build": "tsc -p ./"
+    },
+    "dependencies": {
+        "apollo-server-express": "^2.11.0",
+        "eslint-config-prettier": "^6.10.0",
+        "express": "^4.17.1",
+        "graphql": "^14.6.0",
+        "prettier": "^1.19.1"
+    },
+    "devDependencies": {
+        "@types/body-parser": "^1.19.0",
+        "@types/express": "^4.17.3",
+        "@types/node": "^13.9.1",
+        "@typescript-eslint/eslint-plugin": "^2.24.0",
+        "@typescript-eslint/parser": "^2.24.0",
+        "eslint": "^6.8.0",
+        "nodemon": "^2.0.2",
+        "ts-node": "^8.6.2",
+        "typescript": "^3.8.3"
+    }
 }

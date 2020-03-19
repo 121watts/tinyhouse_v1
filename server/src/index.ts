@@ -1,12 +1,12 @@
 import express from 'express'
+import {ApolloServer} from 'apollo-server-express'
+import {schema} from './graphql'
 
 const app = express()
-const port = 2345
+const port = 9000
+const server = new ApolloServer({schema})
 
-const one = 1
-const two = 2
-
-app.get('/', (_req, res) => res.send(`1 + 2 = ${one + two}`))
+server.applyMiddleware({app, path: '/api'})
 app.listen(port)
 
-console.log(`[app]: http://localhost:${port}`)
+console.log(`[app] : http://localhost:${port}`)
