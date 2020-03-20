@@ -7,7 +7,8 @@
     "license": "MIT",
     "scripts": {
         "start": "nodemon src/index.ts",
-        "build": "tsc -p ./"
+        "build": "tsc -p ./",
+        "seed": "ts-node temp/seed.ts"
     },
     "dependencies": {
         "apollo-server-express": "^2.11.0",
