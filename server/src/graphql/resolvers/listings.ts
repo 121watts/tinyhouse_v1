@@ -23,7 +23,7 @@ export const listingResolvers: IResolvers = {
             })
 
             if (!result.value) {
-                throw new Error('could not delete listing')
+                throw new Error(`listing with id ${id} not found`)
             }
 
             return result.value

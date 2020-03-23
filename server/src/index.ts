@@ -24,8 +24,6 @@ const mount = async (app: Application): Promise<void> => {
 
     // ---
     const listings = await db.listings.find().toArray()
-
-    console.log(listings)
 }
 
 mount(express())
