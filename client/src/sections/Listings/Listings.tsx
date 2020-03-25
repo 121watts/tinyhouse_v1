@@ -1,5 +1,5 @@
 import React, {FC} from 'react'
-import {server, useQuery} from '../../lib/api'
+import {server, useQuery, useMutation} from '../../lib/api'
 import {ListingsData, DeleteListingData, DeleteListingVars} from './types'
 
 const LISTINGS = `
@@ -33,12 +33,13 @@ interface Props {
 export const Listings: FC<Props> = ({title}) => {
     const {data, refetch, loading} = useQuery<ListingsData>(LISTINGS)
 
-    const deleteListing = async (id: string) => {
-        await server.fetch<DeleteListingData, DeleteListingVars>({
-            query: DELETE_LISTING,
-            variables: {id},
-        })
+    const [deleteListing, {loading: deleteLoading}] = useMutation<
+        DeleteListingData,
+        DeleteListingVars
+    >(DELETE_LISTING)
 
+    const handleDeleteListing = async (id: string) => {
+        await deleteListing({id})
         refetch()
     }
 
@@ -48,7 +49,7 @@ export const Listings: FC<Props> = ({title}) => {
                 return (
                     <li key={listing.id}>
                         {listing.title}
-                        <button onClick={() => deleteListing(listing.id)}>
+                        <button onClick={() => handleDeleteListing(listing.id)}>
                             Delete a Listing
                         </button>
                     </li>
@@ -57,19 +58,28 @@ export const Listings: FC<Props> = ({title}) => {
         </ul>
     )
 
+    const errorText = 'Uh oh! Something went wrong -- please try again 😿'
+
     if (loading === 'error') {
-        return <h2>Uh oh! Something went wrong -- please try again 😿</h2>
+        return <h2>{errorText}</h2>
     }
 
     if (loading === 'loading') {
         return <h2>Loading...</h2>
     }
 
+    const deleteLoadingMessage = deleteLoading === 'loading' && (
+        <h4>Deletion in progress</h4>
+    )
+
+    const deleteError = deleteLoading === 'error' && <h4>{errorText}</h4>
+
     return (
         <div>
             <h2>{title}</h2>
             {listingsList}
-            <button>Query Listings</button>
+            {deleteLoadingMessage}
+            {deleteError}
         </div>
     )
 }
