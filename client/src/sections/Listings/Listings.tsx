@@ -1,11 +1,6 @@
 import React, {FC} from 'react'
 import {server, useQuery} from '../../lib/api'
-import {
-    Listing,
-    ListingsData,
-    DeleteListingData,
-    DeleteListingVars,
-} from './types'
+import {ListingsData, DeleteListingData, DeleteListingVars} from './types'
 
 const LISTINGS = `
     query Listings {
@@ -36,7 +31,7 @@ interface Props {
 }
 
 export const Listings: FC<Props> = ({title}) => {
-    const {data, refetch} = useQuery<ListingsData>(LISTINGS)
+    const {data, refetch, loading} = useQuery<ListingsData>(LISTINGS)
 
     const deleteListing = async (id: string) => {
         await server.fetch<DeleteListingData, DeleteListingVars>({
@@ -61,6 +56,14 @@ export const Listings: FC<Props> = ({title}) => {
             })}
         </ul>
     )
+
+    if (loading === 'error') {
+        return <h2>Uh oh! Something went wrong -- please try again 😿</h2>
+    }
+
+    if (loading === 'loading') {
+        return <h2>Loading...</h2>
+    }
 
     return (
         <div>
