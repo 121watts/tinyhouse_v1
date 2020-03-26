@@ -1,4 +1,4 @@
-import {useCallback, useEffect, useState} from 'react'
+import {useCallback, useEffect, useState, useReducer, Reducer} from 'react'
 import {server} from './server'
 import {RemoteDataState} from 'src/types'
 
@@ -11,8 +11,31 @@ interface QueryResult<TData> extends State<TData> {
     refetch: () => void
 }
 
+type Action<TData> =
+    | {type: 'FETCH'}
+    | {type: 'FETCH_SUCCESS'; payload: TData}
+    | {type: 'FETCH_ERROR'}
+
+const reducer = <TData>(
+    state: State<TData>,
+    action: Action<TData>
+): State<TData> => {
+    switch (action.type) {
+        case 'FETCH':
+            return {...state, loading: 'loading'}
+        case 'FETCH_SUCCESS':
+            return {...state, data: action.payload, loading: 'done'}
+        case 'FETCH_ERROR':
+            return {...state, loading: 'error'}
+        default:
+            throw new Error()
+    }
+}
+
+type QueryReducer<TData> = Reducer<State<TData>, Action<TData>>
+
 export const useQuery = <TData = any>(query: string): QueryResult<TData> => {
-    const [state, setState] = useState<State<TData>>({
+    const [state, dispatch] = useReducer<QueryReducer<TData>>(reducer, {
         data: null,
         loading: 'not started',
     })
@@ -20,17 +43,16 @@ export const useQuery = <TData = any>(query: string): QueryResult<TData> => {
     const fetch = useCallback(() => {
         const fetchApi = async () => {
             try {
-                setState({data: null, loading: 'loading'})
+                dispatch({type: 'FETCH'})
                 const {data, errors} = await server.fetch<TData>({query})
 
                 if (errors && errors.length) {
-                    setState({data, loading: 'error'})
                     throw new Error(errors[0].message)
                 }
 
-                setState({data, loading: 'done'})
+                dispatch({type: 'FETCH_SUCCESS', payload: data})
             } catch (error) {
-                setState({data: null, loading: 'error'})
+                dispatch({type: 'FETCH_ERROR'})
                 throw console.error(error)
             }
         }
