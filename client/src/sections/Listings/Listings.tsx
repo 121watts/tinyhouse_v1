@@ -1,5 +1,5 @@
 import React, {FC} from 'react'
-import {server, useQuery, useMutation} from '../../lib/api'
+import {useQuery, useMutation} from '../../lib/api'
 import {ListingsData, DeleteListingData, DeleteListingVars} from './types'
 
 const LISTINGS = `
@@ -45,7 +45,7 @@ export const Listings: FC<Props> = ({title}) => {
 
   const listingsList = (
     <ul>
-      {data?.listings?.map((listing) => {
+      {data?.listings?.map(listing => {
         return (
           <li key={listing.id}>
             {listing.title}

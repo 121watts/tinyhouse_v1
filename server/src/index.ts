@@ -9,21 +9,21 @@ import {Database} from './lib/types'
 const {PORT} = process.env
 
 const mount = async (app: Application): Promise<void> => {
-    const db = await connectDatabase()
-    const server = new ApolloServer({
-        typeDefs,
-        resolvers,
-        context: (): {db: Database} => ({db}),
-    })
+  const db = await connectDatabase()
+  const server = new ApolloServer({
+    typeDefs,
+    resolvers,
+    context: (): {db: Database} => ({db}),
+  })
 
-    server.applyMiddleware({app, path: '/api'})
+  server.applyMiddleware({app, path: '/api'})
 
-    app.listen(PORT)
+  app.listen(PORT)
 
-    console.log(`[app] : http://localhost:${PORT}`)
+  console.log(`[app] : http://localhost:${PORT}`)
 
-    // ---
-    const listings = await db.listings.find().toArray()
+  // ---
+  const listings = await db.listings.find().toArray()
 }
 
 mount(express())
